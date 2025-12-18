@@ -1,0 +1,4 @@
+com/example/camunda/PictureWorker.class
+com/example/camunda/ProcessController.class
+com/example/camunda/StartProcessRequest.class
+com/example/camunda/CamundaClientApplication.class

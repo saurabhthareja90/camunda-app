@@ -1,0 +1,12 @@
+service:
+  type: LoadBalancer
+zeebe:
+  enabled: false
+env:
+  zeebeGatewayAddress: ""
+  zeebeSecurityPlaintext: "false"
+  zeebeData:
+    clusterId: "e82deef2-5604-450a-8979-235ed9c6ceb9"
+    clientId: ".l7H7emUh~2eBiDMGgq9-Nmju2nUczfv"
+    clientSecret: "Qf85Czu266cdnFAZKCfJzVeAHbfrYsJoS.f1PE8bDI_hIwoN-GAqHlPounKxtv_j"
+    region: "sin-2"

@@ -1,0 +1,39 @@
+{{- if .Values.zeebe.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-client-app.fullname" . }}-zeebe
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zeebe
+  template:
+    metadata:
+      labels:
+        app: zeebe
+    spec:
+      containers:
+        - name: zeebe
+          image: camunda/zeebe:8.5.0
+          env:
+            - name: ZEEBE_BROKER_GATEWAY_ENABLE
+              value: "true"
+            - name: ZEEBE_BROKER_NETWORK_HOST
+              value: "0.0.0.0"
+          ports:
+            - containerPort: 26500
+              name: gateway
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zeebe-gateway
+spec:
+  selector:
+    app: zeebe
+  ports:
+    - protocol: TCP
+      port: 26500
+      targetPort: 26500
+{{- end }}

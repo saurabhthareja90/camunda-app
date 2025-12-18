@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS=zeebe:26500
+      - ZEEBE_CLIENT_SECURITY_PLAINTEXT=true
+    restart: on-failure
+
+  zeebe:
+    image: camunda/zeebe:8.3.1
+    ports:
+      - "26500:26500"
+      - "9600:9600"
+    environment:
+      - ZEEBE_LOG_LEVEL=info
+    healthcheck:
+      test: [ "CMD", "zbctl", "status" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s

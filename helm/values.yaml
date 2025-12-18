@@ -1,0 +1,23 @@
+replicaCount: 1
+
+zeebe:
+  enabled: true
+
+image:
+  repository: camunda-client-app-app
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+service:
+  type: LoadBalancer
+  port: 8080
+
+env:
+  zeebeGatewayAddress: "zeebe-gateway:26500"
+  zeebeSecurityPlaintext: "true"
+  # For SaaS, override these using --set or a separate values file:
+  zeebeData:
+    clusterId: ""
+    clientId: ""
+    clientSecret: ""
+    region: "sin-2"

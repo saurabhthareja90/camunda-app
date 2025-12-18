@@ -1,0 +1,45 @@
+{
+  "components": [
+    {
+      "label": "Select",
+      "values": [
+        {
+          "label": "Select an option",
+          "value": "none"
+        },
+        {
+          "label": "Cat",
+          "value": "cat"
+        },
+        {
+          "label": "Dog",
+          "value": "dog"
+        },
+        {
+          "label": "Bear",
+          "value": "bear"
+        }
+      ],
+      "type": "select",
+      "layout": {
+        "row": "Row_1i95sw2",
+        "columns": null
+      },
+      "id": "Field_1k3ozbj",
+      "key": "select_ag6vxwb",
+      "properties": {},
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Form_0p4syjy",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.8.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.42.0"
+  },
+  "schemaVersion": 19
+}

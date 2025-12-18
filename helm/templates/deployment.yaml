@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "camunda-client-app.fullname" . }}
+  labels:
+    {{- include "camunda-client-app.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "camunda-client-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "camunda-client-app.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          env:
+            - name: ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS
+              value: {{ .Values.env.zeebeGatewayAddress | quote }}
+            - name: ZEEBE_CLIENT_SECURITY_PLAINTEXT
+              value: {{ .Values.env.zeebeSecurityPlaintext | quote }}
+            {{- if and .Values.env.zeebeData .Values.env.zeebeData.clusterId }}
+            - name: ZEEBE_CLIENT_CLOUD_CLUSTER-ID
+              value: {{ .Values.env.zeebeData.clusterId | quote }}
+            - name: ZEEBE_CLIENT_CLOUD_CLIENT-ID
+              value: {{ .Values.env.zeebeData.clientId | quote }}
+            - name: ZEEBE_CLIENT_CLOUD_CLIENT-SECRET
+              value: {{ .Values.env.zeebeData.clientSecret | quote }}
+            - name: ZEEBE_CLIENT_CLOUD_REGION
+              value: {{ .Values.env.zeebeData.region | quote }}
+            {{- end }}
