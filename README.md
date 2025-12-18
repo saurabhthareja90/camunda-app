@@ -23,7 +23,8 @@ A Spring Boot application that orchestrates fetching animal pictures using Camun
 These options run a Zeebe broker locally on your machine.
 
 ### Option 1: Docker Compose (Recomendended)
-This starts the app and a local Zeebe broker in one command.
+This starts the app, a local Zeebe broker, and Redis in one command.
+
 ```bash
 docker-compose up --build
 ```
@@ -32,12 +33,13 @@ Open [http://localhost:8080](http://localhost:8080).
 ### Option 2: Kubernetes (Helm)
 The provided Helm chart includes a standalone Zeebe broker and a Redis instance for internal development.
 
-**Note**: You must build the Docker image locally first so Kubernetes can find it:
+**1. Build the Docker image**:
 ```bash
+# Docker now handles the build internally
 docker build -t camunda-client-app-app:latest .
 ```
 
-Then install using the chart:
+**2. Install using the chart**:
 ```bash
 # Deploys the app, an internal Zeebe broker, and Redis
 helm install my-release ./helm
@@ -67,7 +69,10 @@ ZEEBE_CLIENT_SECURITY_PLAINTEXT=false
 ```
 
 ### 2. Running with Docker
+
 ```bash
+# Docker now handles the build internally
+docker build -t camunda-client-app-app:latest .
 docker run -p 8080:8080 --env-file saas.env camunda-client-app-app
 ```
 
@@ -111,6 +116,28 @@ mvn test
 | `kubectl get pods` | View running pods in Kubernetes. |
 | `kubectl logs -f <pod-name>` | Follow application or worker logs. |
 | `helm uninstall my-release` | Remove the app and its resources. |
+
+---
+
+## ☁️ Connecting to Your Own Cluster (SaaS)
+
+You can point this application to any external Camunda cluster by providing your credentials in an environment file.
+
+1.  **Copy the template**:
+    ```bash
+    cp camunda-config.env.example .env
+    ```
+2.  **Edit `.env`**: Fill in your `Cluster ID`, `Client ID`, and `Client Secret` from the Camunda Console.
+3.  **Run with configuration**:
+    - **Docker Compose**: The app service will automatically pick up a file named `.env` if present.
+    - **Docker Manual**: 
+      ```bash
+      docker run -p 8080:8080 --env-file .env camunda-client-app-app
+      ```
+    - **Helm**: 
+      ```bash
+      helm install my-release ./helm --set-file env.zeebeData=.env
+      ```
 | [Architecture Diagram](architecture.md) | View the system design and process flow. |
 
 ## 📦 Picture Storage (Redis)
