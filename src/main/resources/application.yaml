@@ -1,9 +1,14 @@
 zeebe:
   client:
     broker:
-      gateway-address: ${ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS:127.0.0.1:26500}
+      gateway-address: ${ZEEBE_CLIENT_BROKER_GATEWAY_ADDRESS:127.0.0.1:26500}
     security:
       plaintext: ${ZEEBE_CLIENT_SECURITY_PLAINTEXT:true}
+    cloud:
+      cluster-id: ${ZEEBE_CLIENT_CLOUD_CLUSTER_ID}
+      client-id: ${ZEEBE_CLIENT_CLOUD_CLIENT_ID}
+      client-secret: ${ZEEBE_CLIENT_CLOUD_CLIENT_SECRET}
+      region: ${ZEEBE_CLIENT_CLOUD_REGION}
 
 spring:
   data:

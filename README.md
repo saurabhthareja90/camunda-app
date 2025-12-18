@@ -71,7 +71,6 @@ ZEEBE_CLIENT_SECURITY_PLAINTEXT=false
 ### 2. Running with Docker
 
 ```bash
-# Docker now handles the build internally
 docker build -t camunda-client-app-app:latest .
 docker run -p 8080:8080 --env-file saas.env camunda-client-app-app
 ```
@@ -138,6 +137,33 @@ You can point this application to any external Camunda cluster by providing your
       ```bash
       helm install my-release ./helm --set-file env.zeebeData=.env
       ```
+
+---
+
+## 🚀 Deploying Processes via CLI (`zbctl`)
+
+If you want to deploy the BPMN process manually or update it, you can use the provided helper script.
+
+1.  **Using the helper script** (recommended):
+    ```bash
+    # This automatically uses your .env or saas.env
+    ./deploy-process.sh src/main/resources/fetch_picture.bpmn
+    ```
+
+2.  **Using `zbctl` directly** (SaaS):
+    ```bash
+    export ZEEBE_ADDRESS='[Cluster ID].[Region].zeebe.camunda.io:443'
+    export ZEEBE_CLIENT_ID='[Client ID]'
+    export ZEEBE_CLIENT_SECRET='[Client Secret]'
+    export ZEEBE_AUTHORIZATION_SERVER_URL='https://login.cloud.camunda.io/oauth/token'
+
+    zbctl deploy resource src/main/resources/fetch_picture.bpmn
+    ```
+
+3.  **Using `zbctl` directly** (Local):
+    ```bash
+    zbctl --insecure --address localhost:26500 deploy resource src/main/resources/fetch_picture.bpmn
+    ```
 | [Architecture Diagram](architecture.md) | View the system design and process flow. |
 
 ## 📦 Picture Storage (Redis)
