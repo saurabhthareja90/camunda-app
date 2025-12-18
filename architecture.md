@@ -8,11 +8,22 @@ The following diagram illustrates the high-level components and their interactio
 
 ```mermaid
 graph TD
-    Client[Web Browser / UI] -->|POST /api/start| API[Spring Boot REST API]
-    API -->|gRPC| Zeebe[Camunda Zeebe Engine]
-    Zeebe -->|Job Stream| Worker[Job Worker: fetch-picture]
-    Worker -->|Completion| Zeebe
-    Worker -.->|Fetch Image| Unsplash[Unsplash API / Image Services]
+    User[Web Browser / UI]
+    ZC[Camunda Zeebe Engine]
+
+    subgraph App ["Spring Boot App"]
+        PC["ProcessController (REST)"]
+        PW["PictureWorker (Zeebe Worker)"]
+        REDIS[("Redis Cache")]
+    end
+
+    User -->|POST /process| PC
+    PC -->|Start Instance| ZC
+    ZC -->|Activate Job| PW
+    PW -->|Fetch Image| Unsplash["Unsplash/Static Images"]
+    PW -->|Save Record| REDIS
+    PW -->|Complete Job| ZC
+    ZC -->|Update Variables| PC
 ```
 
 ### 1. Web UI

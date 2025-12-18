@@ -30,7 +30,7 @@ docker-compose up --build
 Open [http://localhost:8080](http://localhost:8080).
 
 ### Option 2: Kubernetes (Helm)
-The provided Helm chart includes a standalone Zeebe broker for internal development.
+The provided Helm chart includes a standalone Zeebe broker and a Redis instance for internal development.
 
 **Note**: You must build the Docker image locally first so Kubernetes can find it:
 ```bash
@@ -39,7 +39,7 @@ docker build -t camunda-client-app-app:latest .
 
 Then install using the chart:
 ```bash
-# Deploys both the app and an internal Zeebe broker
+# Deploys the app, an internal Zeebe broker, and Redis
 helm install my-release ./helm
 ```
 **Default Access**: [http://localhost:8080](http://localhost:8080) (via LoadBalancer).
@@ -112,3 +112,16 @@ mvn test
 | `kubectl logs -f <pod-name>` | Follow application or worker logs. |
 | `helm uninstall my-release` | Remove the app and its resources. |
 | [Architecture Diagram](architecture.md) | View the system design and process flow. |
+
+## 📦 Picture Storage (Redis)
+
+Fetched picture URLs are automatically cached/stored in a Redis instance.
+- **Local/Docker Run**: Redis starts automatically via `docker-compose`.
+- **SaaS Run**: The app will attempt to connect to `localhost:6379` by default unless `SPRING_DATA_REDIS_HOST` is provided.
+
+### Inspecting Stored Pictures:
+```bash
+docker exec -it camunda-client-app-redis-1 redis-cli KEYS "*"
+# To view a specific record:
+docker exec -it camunda-client-app-redis-1 redis-cli GET <key-name>
+```

@@ -3,6 +3,9 @@ replicaCount: 1
 zeebe:
   enabled: true
 
+redis:
+  enabled: true
+
 image:
   repository: camunda-client-app-app
   pullPolicy: IfNotPresent
@@ -15,6 +18,7 @@ service:
 env:
   zeebeGatewayAddress: "zeebe-gateway:26500"
   zeebeSecurityPlaintext: "true"
+  redisHost: "redis:6379"
   # For SaaS, override these using --set or a separate values file:
   zeebeData:
     clusterId: ""

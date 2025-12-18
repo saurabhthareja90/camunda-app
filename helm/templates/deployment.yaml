@@ -27,6 +27,8 @@ spec:
               value: {{ .Values.env.zeebeGatewayAddress | quote }}
             - name: ZEEBE_CLIENT_SECURITY_PLAINTEXT
               value: {{ .Values.env.zeebeSecurityPlaintext | quote }}
+            - name: SPRING_DATA_REDIS_HOST
+              value: {{ .Values.env.redisHost | quote }}
             {{- if and .Values.env.zeebeData .Values.env.zeebeData.clusterId }}
             - name: ZEEBE_CLIENT_CLOUD_CLUSTER-ID
               value: {{ .Values.env.zeebeData.clusterId | quote }}

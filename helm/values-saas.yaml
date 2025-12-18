@@ -2,9 +2,12 @@ service:
   type: LoadBalancer
 zeebe:
   enabled: false
+redis:
+  enabled: true
 env:
   zeebeGatewayAddress: ""
   zeebeSecurityPlaintext: "false"
+  redisHost: "redis:6379"
   zeebeData:
     clusterId: "e82deef2-5604-450a-8979-235ed9c6ceb9"
     clientId: ".l7H7emUh~2eBiDMGgq9-Nmju2nUczfv"

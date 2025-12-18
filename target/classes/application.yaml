@@ -3,7 +3,13 @@ zeebe:
     broker:
       gateway-address: ${ZEEBE_CLIENT_BROKER_GATEWAY-ADDRESS:127.0.0.1:26500}
     security:
-      plaintext: ${ZEEBE_CLIENT_SECURITY_PLAINTEXT:true}
+      plaintext: true # Set to false for SaaS
+
+spring:
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: 6379
 
 logging:
   level:

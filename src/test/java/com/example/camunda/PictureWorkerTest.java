@@ -7,9 +7,10 @@ import io.camunda.zeebe.client.api.worker.JobClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -21,10 +22,19 @@ class PictureWorkerTest {
     private JobClient jobClient;
     private ActivatedJob activatedJob;
     private CompleteJobCommandStep1 completeJobCommandStep1;
+    private StringRedisTemplate redisTemplate;
+    private ObjectMapper objectMapper;
+    private ValueOperations<String, String> valueOperations;
 
     @BeforeEach
     void setUp() {
-        pictureWorker = new PictureWorker();
+        redisTemplate = mock(StringRedisTemplate.class);
+        objectMapper = mock(ObjectMapper.class);
+        valueOperations = mock(ValueOperations.class);
+
+        when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+
+        pictureWorker = new PictureWorker(redisTemplate, objectMapper);
         jobClient = mock(JobClient.class);
         activatedJob = mock(ActivatedJob.class);
         completeJobCommandStep1 = mock(CompleteJobCommandStep1.class);
