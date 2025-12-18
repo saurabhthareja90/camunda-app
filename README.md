@@ -12,6 +12,7 @@ A Spring Boot application that orchestrates fetching animal pictures using Camun
 
 ## Prerequisites
 - Java 21+
+- Maven 3.9+
 - Docker & Docker Compose
 - Camunda 8 Cluster (SaaS or Self-Managed)
 
@@ -84,6 +85,22 @@ export $(grep -v '^#' saas.env | xargs)
 # Start the app
 java -jar target/camunda-client-app-0.0.1-SNAPSHOT.jar
 ```
+
+---
+
+## 🧪 Testing
+
+The project includes automated tests for all major components.
+
+### Run all tests:
+```bash
+mvn test
+```
+
+### What is tested:
+- **`CamundaClientApplicationTests`**: Verifies the Spring Boot application context loads correctly.
+- **`ProcessControllerTest`**: Mocks Zeebe to verify the REST API initiates processes with the correct variables.
+- **`PictureWorkerTest`**: Verifies the image URL selection logic and Zeebe job completion.
 
 ---
 
