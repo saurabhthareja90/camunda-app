@@ -58,7 +58,7 @@ class PictureWorkerTest {
         verify(completeJobCommandStep1).variables(variablesCaptor.capture());
 
         Map capturedVariables = variablesCaptor.getValue();
-        assertEquals("https://place.dog/500/500", capturedVariables.get("pictureUrl"));
+        assertEquals("https://place.dog/600/900", capturedVariables.get("pictureUrl"));
     }
 
     @Test
